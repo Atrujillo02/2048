@@ -133,7 +133,7 @@ function moveDown() {
 function moveLeft() {
     let moved = false;
     for (let row = 0; row < 4; row++) {
-        let newRow = grid[row].filter(val => val); // Eliminar celdas vacías
+        let newRow = grid[row].filter(val => val);
         for (let col = 0; col < newRow.length - 1; col++) {
             if (newRow[col] === newRow[col + 1]) {
                 newRow[col] *= 2;
@@ -155,7 +155,7 @@ function moveLeft() {
 function moveRight() {
     let moved = false;
     for (let row = 0; row < 4; row++) {
-        let newRow = grid[row].filter(val => val); // Eliminar celdas vacías
+        let newRow = grid[row].filter(val => val);
         for (let col = newRow.length - 1; col > 0; col--) {
             if (newRow[col] === newRow[col - 1]) {
                 newRow[col] *= 2;
@@ -178,13 +178,13 @@ function checkGameOver() {
     for (let row = 0; row < 4; row++) {
         for (let col = 0; col < 4; col++) {
             if (!grid[row][col]) {
-                return false; // Hay celdas vacías
+                return false;
             }
             if (col < 3 && grid[row][col] === grid[row][col + 1]) {
-                return false; // Hay movimientos posibles horizontalmente
+                return false;
             }
             if (row < 3 && grid[row][col] === grid[row + 1][col]) {
-                return false; // Hay movimientos posibles verticalmente
+                return false;
             }
         }
     }
