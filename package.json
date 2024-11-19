@@ -1,0 +1,17 @@
+{
+  "name": "2048-game",
+  "version": "1.0.0",
+  "description": "2048 game using Vite and Bootstrap",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  }
+}
