@@ -1,5 +1,7 @@
 let grid;
 let score = 0;
+let highScore = localStorage.getItem('highScore') || 0;
+let gameWon = false;
 
 export function initGame() {
     grid = Array.from({ length: 4 }, () => Array(4).fill(null));
@@ -9,6 +11,9 @@ export function initGame() {
 }
 
 export function handleKeyPress(event) {
+    if(gameWon)
+        return;
+    
     let moved = false;
     switch (event.key) {
         case 'ArrowUp':
@@ -34,6 +39,9 @@ export function handleKeyPress(event) {
 export function restartGame() {
     score = 0;
     document.getElementById('score').innerText = score;
+    document.getElementById('game-over').style.display = 'none';
+    document.getElementById('you-win').style.display = 'none';
+    gameWon = false;
     initGame();
 }
 
@@ -48,7 +56,7 @@ function addRandomTile() {
     }
     if (emptyCells.length > 0) {
         const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        grid[row][col] = Math.random() < 0.9 ? 2 : 4;
+        grid[row][col] = Math.random() < 0.9 ? 2: 4;
     }
 }
 
@@ -62,6 +70,10 @@ function updateGrid() {
             if (grid[row][col]) {
                 cell.innerText = grid[row][col];
                 cell.setAttribute('data-value', grid[row][col]);
+                if (grid[row][col] === 2048) {
+                    document.getElementById('you-win').style.display = 'block';
+                    gameWon = true;
+                }
             } else {
                 cell.innerText = '';
                 cell.removeAttribute('data-value');
@@ -70,6 +82,7 @@ function updateGrid() {
         }
     }
     document.getElementById('score').innerText = score;
+    document.getElementById('highScore').innerText = highScore;
 }
 
 function moveUp() {
@@ -97,6 +110,10 @@ function moveUp() {
             }
             grid[row][col] = newCol[row];
         }
+    }
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
     }
     return moved;
 }
@@ -127,6 +144,10 @@ function moveDown() {
             grid[row][col] = newCol[row];
         }
     }
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
+    }
     return moved;
 }
 
@@ -148,6 +169,10 @@ function moveLeft() {
             moved = true;
         }
         grid[row] = newRow;
+    }
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
     }
     return moved;
 }
@@ -171,6 +196,10 @@ function moveRight() {
         }
         grid[row] = newRow;
     }
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
+    }
     return moved;
 }
 
@@ -188,6 +217,6 @@ function checkGameOver() {
             }
         }
     }
-    alert('Game Over!');
+    document.getElementById('game-over').style.display = 'block';
     return true;
 }
